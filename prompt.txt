@@ -1,0 +1,164 @@
+# Create Go Plugin for getting information of device using winrm
+
+## Role : You are expert programmer who is expert in plugin developement
+## Responsibilities :
+1) Make Robust and Clean Go Code
+2) Divide one big problem into smaller problems and start to think and write clean code to solve one big problem
+3) Create Functions, variables with propernaming and with checking it's correctness and conflicts
+4) Create Proper code which works completely and give me code file wise
+
+## Task  1
+1) Your task is to create go plugin for fetching information from windows device using winrm
+2) You will recieve your input in command line argument in the json form, For example
+```cmd
+go run main.go {"type": "discovery", "ips":[] }
+``````
+
+**Input Json**
+
+```json
+{
+  "type": "discovery",
+  "id": 1,
+  "ips": ["10.20.41.10", "10.20.41.11"],
+  "credentials": [
+    {
+      "id": 1,
+      "username": "kartikey",
+      "password": "kartikey"
+    },
+    {
+      "id": 2,
+      "username": "jay",
+      "password": "jay"
+    }
+  ],
+  "port": 5123
+}
+```
+
+3) You have to make
+```
+systeminfo
+```
+Command to ip at given port with given credential,But wait we have multiple credentials
+So We have to spawn ` len(credentials) * len(ips) ` go routines to make request to windows
+and wait for all to complete
+
+4) Now create Response for our discovery result
+
+**Output Format**
+
+```json
+{
+  "type": "discovery",
+  "id": 1,
+  "result": [
+    {
+      "success": true,
+      "ip": "10.20.41.10",
+      "credential": {
+        "id": 1,
+        "username": "kartikey",
+        "password": "kartikey"
+      },
+      "port": 5123,
+      "message": "WINRM_GIVEN_OUTPUT_AFTER_RUNNING_systeminfo_COMMAND"
+    },
+    {
+      "success": false,
+      "ip": "10.20.41.11",
+      "credential": null,
+      "port": 5123,
+      "message": "Time out or invalid credential message"
+    }
+  ]
+}
+```
+
+Now Note Here in message you have to write logic to know if winrm is timedout ( timeout is defined by us ) or all credentials are not working for that ip
+If one of them is working then it's correct credential for that ip so attach that in response
+
+This output will be println
+
+Take care in spawing go routines you have to spwan len(ips) * len(credentials) go routines and then wait for all to terminate
+after all done running take result from every go routines using channels and then procced to give result
+
+
+
+## Task  2
+1) Your task is to create go plugin for fetching information from windows device using winrm
+2) You will recieve your input in command line argument in the json form, For example
+```cmd
+go run main.go {"type": "polling", "metric_groups":[] }
+``````
+
+**Input Json**
+
+```json
+{
+  "type": "polling",
+  "metric_groups": [
+    {
+      "provision_profile_id": 1,
+      "name": "CPU",
+      "ip": "10.20.41.10",
+      "port": 5123,
+      "credentials": {
+        "id": 1,
+        "username": "kartikey",
+        "password": "kartikey"
+      }
+    },
+    {
+      "provision_profile_id": 2,
+      "name": "MEMORY",
+      "ip": "10.20.41.11",
+      "port": 5123,
+      "credentials": {
+        "id": 2,
+        "username": "jay",
+        "password": "jay"
+      }
+    }
+  ]
+}
+```
+
+3) You have to make
+```json
+{
+  "type": "polling",
+
+  "metric_groups": [
+    {
+      "success": true,
+      "provision_profile_id": 1,
+      "name": "CPU",
+      "data": "Name       Id     CPU     WorkingSet",
+      "message": "success ...",
+      "time": ""
+
+    },
+    {
+      "success": true,
+      "provision_profile_id": 2,
+      "name": "MEMORY",
+      "data": "TotalVisibleMemorySize FreePhysicalMemory ..",
+      "message": "success ...",
+      "time": ""
+    }
+  ]
+}
+```
+
+Now Note Here in message you have to write logic to know if winrm is time out ( timeout is defined by us ) or all credentials are not working for that ip
+If one of them is working then it's correct credential for that ip so attach that in response
+
+This output will be println
+
+Take care in spawning go routines you have to spawan len(metric_groups) go routines and then wait for all to terminate
+after all done running take result from every go routines using channels and then procceed to give result
+
+
+# IMP : log all things into files only just print output json in the stdout

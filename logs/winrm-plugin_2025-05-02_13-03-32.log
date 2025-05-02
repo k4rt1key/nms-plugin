@@ -1,0 +1,155 @@
+2025/05/02 13:03:32 logger.go:57: [INFO] Logger initialized
+2025/05/02 13:03:32 logger.go:57: [INFO] WinRM Plugin started
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received input: {"type":"discovery","id":1,"ips":["172.16.8.57","172.16.10.132","172.16.8.128","192.168.1.100","10.0.0.50","172.16.99.99","172.16.77.77"],"credentials":[{"id":1,"username":"Administrator","password":"Motadata@8"},{"id":2,"username":"admin","password":"Mind@123"},{"id":3,"username":"Administrator","password":"Mind@123"},{"id":4,"username":"wronguser","password":"wrongpass"},{"id":5,"username":"fakeadmin","password":"fakepassword"},{"id":6,"username":"test","password":"test123"},{"id":7,"username":"nouser","password":"nopass"}],"port":5985, "metric": "hostname"}
+2025/05/02 13:03:32 logger.go:57: [INFO] Processing discovery request with ID 1 for 7 IPs
+2025/05/02 13:03:32 logger.go:57: [INFO] Starting discovery process for 7 IPs with 7 credentials
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.8.57:5985 with user 'fakeadmin'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.8.57:5985 with user 'nouser'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.8.57:5985 with user 'Administrator'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.8.57:5985 with user 'wronguser'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.8.57:5985 with user 'admin'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 192.168.1.100:5985 with user 'nouser'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.8.128:5985 with user 'Administrator'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.8.57:5985 with user 'test'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.10.132:5985 with user 'fakeadmin'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 10.0.0.50:5985 with user 'admin'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.10.132:5985 with user 'nouser'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.10.132:5985 with user 'Administrator'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.8.128:5985 with user 'wronguser'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.8.128:5985 with user 'Administrator'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 10.0.0.50:5985 with user 'Administrator'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.10.132:5985 with user 'Administrator'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.10.132:5985 with user 'test'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.10.132:5985 with user 'admin'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.8.128:5985 with user 'fakeadmin'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.8.128:5985 with user 'admin'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.8.128:5985 with user 'test'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 10.0.0.50:5985 with user 'wronguser'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.8.128:5985 with user 'nouser'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 192.168.1.100:5985 with user 'fakeadmin'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 192.168.1.100:5985 with user 'admin'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 10.0.0.50:5985 with user 'Administrator'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.99.99:5985 with user 'admin'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 192.168.1.100:5985 with user 'wronguser'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.77.77:5985 with user 'Administrator'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.99.99:5985 with user 'fakeadmin'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 10.0.0.50:5985 with user 'fakeadmin'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 192.168.1.100:5985 with user 'Administrator'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.99.99:5985 with user 'Administrator'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.10.132:5985 with user 'wronguser'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.99.99:5985 with user 'Administrator'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.99.99:5985 with user 'test'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.77.77:5985 with user 'Administrator'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 10.0.0.50:5985 with user 'nouser'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.8.57:5985 with user 'Administrator'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 192.168.1.100:5985 with user 'test'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.77.77:5985 with user 'admin'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 192.168.1.100:5985 with user 'Administrator'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.77.77:5985 with user 'wronguser'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 10.0.0.50:5985 with user 'test'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.99.99:5985 with user 'nouser'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.99.99:5985 with user 'wronguser'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.77.77:5985 with user 'fakeadmin'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.77.77:5985 with user 'nouser'
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Executing command 'systeminfo' on 172.16.77.77:5985 with user 'test'
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.8.128:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.10.132:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.8.128 with credential ID 5: success=false
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.10.132 with credential ID 1: success=false
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.10.132:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.10.132 with credential ID 6: success=false
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.10.132:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.10.132 with credential ID 5: success=false
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.10.132:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.10.132:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.10.132:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.8.128:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.10.132 with credential ID 3: success=false
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.10.132 with credential ID 7: success=false
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.10.132 with credential ID 4: success=false
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.8.128 with credential ID 2: success=false
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.8.128:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.8.128 with credential ID 1: success=false
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.8.57:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.8.57 with credential ID 3: success=false
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.8.128:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.8.128:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.8.128 with credential ID 4: success=false
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.8.128 with credential ID 7: success=false
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.8.128:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.8.128 with credential ID 6: success=false
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.8.57:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.8.57 with credential ID 2: success=false
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.8.57:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.8.57:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.8.57:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:64: [ERROR] Command execution failed on 172.16.8.57:5985: http response error: 401 - invalid content type
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.8.57 with credential ID 5: success=false
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.8.57 with credential ID 4: success=false
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.8.57 with credential ID 6: success=false
+2025/05/02 13:03:32 logger.go:71: [DEBUG] Received discovery result for 172.16.8.57 with credential ID 7: success=false
+2025/05/02 13:03:37 logger.go:71: [DEBUG] Command execution succeeded on 172.16.10.132:5985
+2025/05/02 13:03:37 logger.go:71: [DEBUG] Received discovery result for 172.16.10.132 with credential ID 2: success=true
+2025/05/02 13:03:44 logger.go:71: [DEBUG] Command execution succeeded on 172.16.8.57:5985
+2025/05/02 13:03:44 logger.go:71: [DEBUG] Received discovery result for 172.16.8.57 with credential ID 1: success=true
+2025/05/02 13:03:48 logger.go:71: [DEBUG] Command execution succeeded on 172.16.8.128:5985
+2025/05/02 13:03:48 logger.go:71: [DEBUG] Received discovery result for 172.16.8.128 with credential ID 3: success=true
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 10.0.0.50:5985: unknown error Post "http://10.0.0.50:5985/wsman": dial tcp 10.0.0.50:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 172.16.99.99:5985: unknown error Post "http://172.16.99.99:5985/wsman": dial tcp 172.16.99.99:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 192.168.1.100:5985: unknown error Post "http://192.168.1.100:5985/wsman": dial tcp 192.168.1.100:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 10.0.0.50:5985: unknown error Post "http://10.0.0.50:5985/wsman": dial tcp 10.0.0.50:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 172.16.77.77:5985: unknown error Post "http://172.16.77.77:5985/wsman": dial tcp 172.16.77.77:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 192.168.1.100:5985: unknown error Post "http://192.168.1.100:5985/wsman": dial tcp 192.168.1.100:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 192.168.1.100:5985: unknown error Post "http://192.168.1.100:5985/wsman": dial tcp 192.168.1.100:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 172.16.99.99:5985: unknown error Post "http://172.16.99.99:5985/wsman": dial tcp 172.16.99.99:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 172.16.99.99:5985: unknown error Post "http://172.16.99.99:5985/wsman": dial tcp 172.16.99.99:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 172.16.99.99:5985: unknown error Post "http://172.16.99.99:5985/wsman": dial tcp 172.16.99.99:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 172.16.99.99:5985: unknown error Post "http://172.16.99.99:5985/wsman": dial tcp 172.16.99.99:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 192.168.1.100:5985: unknown error Post "http://192.168.1.100:5985/wsman": dial tcp 192.168.1.100:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 172.16.77.77:5985: unknown error Post "http://172.16.77.77:5985/wsman": dial tcp 172.16.77.77:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 172.16.77.77:5985: unknown error Post "http://172.16.77.77:5985/wsman": dial tcp 172.16.77.77:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 10.0.0.50:5985: unknown error Post "http://10.0.0.50:5985/wsman": dial tcp 10.0.0.50:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 172.16.77.77:5985: unknown error Post "http://172.16.77.77:5985/wsman": dial tcp 172.16.77.77:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 192.168.1.100:5985: unknown error Post "http://192.168.1.100:5985/wsman": dial tcp 192.168.1.100:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 192.168.1.100:5985: unknown error Post "http://192.168.1.100:5985/wsman": dial tcp 192.168.1.100:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 10.0.0.50:5985: unknown error Post "http://10.0.0.50:5985/wsman": dial tcp 10.0.0.50:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 172.16.99.99:5985: unknown error Post "http://172.16.99.99:5985/wsman": dial tcp 172.16.99.99:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 10.0.0.50:5985: unknown error Post "http://10.0.0.50:5985/wsman": dial tcp 10.0.0.50:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 172.16.77.77:5985: unknown error Post "http://172.16.77.77:5985/wsman": dial tcp 172.16.77.77:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 10.0.0.50:5985: unknown error Post "http://10.0.0.50:5985/wsman": dial tcp 10.0.0.50:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 172.16.99.99:5985: unknown error Post "http://172.16.99.99:5985/wsman": dial tcp 172.16.99.99:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 192.168.1.100:5985: unknown error Post "http://192.168.1.100:5985/wsman": dial tcp 192.168.1.100:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 172.16.77.77:5985: unknown error Post "http://172.16.77.77:5985/wsman": dial tcp 172.16.77.77:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 10.0.0.50:5985: unknown error Post "http://10.0.0.50:5985/wsman": dial tcp 10.0.0.50:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 10.0.0.50 with credential ID 2: success=false
+2025/05/02 13:04:02 logger.go:64: [ERROR] Command execution failed on 172.16.77.77:5985: unknown error Post "http://172.16.77.77:5985/wsman": dial tcp 172.16.77.77:5985: i/o timeout
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 172.16.77.77 with credential ID 6: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 172.16.77.77 with credential ID 5: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 10.0.0.50 with credential ID 5: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 172.16.77.77 with credential ID 4: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 192.168.1.100 with credential ID 2: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 192.168.1.100 with credential ID 7: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 172.16.99.99 with credential ID 4: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 172.16.99.99 with credential ID 6: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 172.16.99.99 with credential ID 1: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 172.16.99.99 with credential ID 5: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 192.168.1.100 with credential ID 1: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 172.16.77.77 with credential ID 2: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 172.16.77.77 with credential ID 7: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 10.0.0.50 with credential ID 3: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 172.16.77.77 with credential ID 3: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 192.168.1.100 with credential ID 3: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 192.168.1.100 with credential ID 6: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 10.0.0.50 with credential ID 4: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 172.16.99.99 with credential ID 3: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 10.0.0.50 with credential ID 1: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 172.16.77.77 with credential ID 1: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 10.0.0.50 with credential ID 6: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 172.16.99.99 with credential ID 7: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 192.168.1.100 with credential ID 5: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 172.16.99.99 with credential ID 2: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 10.0.0.50 with credential ID 7: success=false
+2025/05/02 13:04:02 logger.go:71: [DEBUG] Received discovery result for 192.168.1.100 with credential ID 4: success=false
+2025/05/02 13:04:02 logger.go:57: [INFO] Discovery completed with 3 successful connections out of 7 IPs
+2025/05/02 13:04:02 logger.go:57: [INFO] WinRM Plugin completed successfully
+2025/05/02 13:04:02 logger.go:57: [INFO] Closing logger
