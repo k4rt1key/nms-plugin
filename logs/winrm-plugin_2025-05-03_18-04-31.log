@@ -1,0 +1,11 @@
+2025/05/03 18:04:31 logger.go:57: [INFO] Logger initialized
+2025/05/03 18:04:31 logger.go:57: [INFO] WinRM Plugin started
+2025/05/03 18:04:31 logger.go:71: [DEBUG] Received input: {"type":"polling","metric_groups":[{"provision_profile_id":1,"name":"HOSTNAME","ip":"192.168.29.36","port":5985,"credentials":{"id":14,"name":"orignal2","username":"hp","password":"0130"}}]}
+2025/05/03 18:04:31 logger.go:57: [INFO] Processing polling request for 1 metric groups
+2025/05/03 18:04:31 logger.go:57: [INFO] Starting polling process for 1 metric groups
+2025/05/03 18:04:31 logger.go:71: [DEBUG] Executing command 'systeminfo' on 192.168.29.36:5985 with user 'hp'
+2025/05/03 18:04:32 logger.go:64: [ERROR] Command execution failed on 192.168.29.36:5985: http response error: 401 - invalid content type
+2025/05/03 18:04:32 logger.go:64: [ERROR] Failed to get metrics for group HOSTNAME (ID: 1) on 192.168.29.36: http response error: 401 - invalid content type
+2025/05/03 18:04:32 logger.go:57: [INFO] Polling completed for 1 metric groups
+2025/05/03 18:04:32 logger.go:57: [INFO] WinRM Plugin completed successfully
+2025/05/03 18:04:32 logger.go:57: [INFO] Closing logger

@@ -13,7 +13,7 @@ import (
 
 const (
 	// DiscoveryTimeout is the timeout for discovery operations
-	DiscoveryTimeout = 60 * time.Second
+	DiscoveryTimeout = 15 * time.Second
 )
 
 // Result represents the result of a discovery operation
@@ -101,9 +101,9 @@ func Execute(request models.DiscoveryRequest) models.DiscoveryResponse {
 			successfulResults[result.IP] = models.DiscoveryResult{
 				Success:    true,
 				IP:         result.IP,
-				Credential: &result.Credential,
+				Credential: result.Credential,
 				Port:       request.Port,
-				Message:    result.Message,
+				Message:    parser.ParseDiscoveryOutput(result.Message),
 			}
 			resultsMutex.Unlock()
 		}
@@ -124,7 +124,7 @@ func Execute(request models.DiscoveryRequest) models.DiscoveryResponse {
 			response.Result = append(response.Result, models.DiscoveryResult{
 				Success:    false,
 				IP:         ip,
-				Credential: nil,
+				Credential: models.Credential{},
 				Port:       request.Port,
 				Message:    "Connection failed or invalid credentials for this IP",
 			})

@@ -1,0 +1,14 @@
+2025/05/02 19:15:03 logger.go:57: [INFO] Logger initialized
+2025/05/02 19:15:03 logger.go:57: [INFO] WinRM Plugin started
+2025/05/02 19:15:03 logger.go:71: [DEBUG] Received input: {"type":"polling","metric_groups":[{"provision_profile_id":1,"name":"CPU","ip":"172.16.8.98","port":5985,"credentials":{"id":14,"name":"orignal2","username":"Administrator","password":"Mind@123"}},{"provision_profile_id":2,"name":"MEMORY","ip":"172.16.8.86","port":5985,"credentials":{"id":14,"name":"orignal2","username":"Administrator","password":"Mind@123"}}]}
+2025/05/02 19:15:03 logger.go:57: [INFO] Processing polling request for 2 metric groups
+2025/05/02 19:15:03 logger.go:57: [INFO] Starting polling process for 2 metric groups
+2025/05/02 19:15:03 logger.go:71: [DEBUG] Executing command '$sysinfo = systeminfo; $os = ($sysinfo | Select-String "OS Name").ToString().Split(":")[1].Trim(); $host = ($sysinfo | Select-String "Host Name").ToString().Split(":")[1].Trim(); Write-Output ("os = " + $os + ", hostname = " + $host)' on 172.16.8.98:5985 with user 'Administrator'
+2025/05/02 19:15:03 logger.go:71: [DEBUG] Executing command 'powershell "$os = Get-WmiObject Win32_OperatingSystem; Write-Output ('TotalVisibleMemorySize: {0:N2} MB' -f ($os.TotalVisibleMemorySize / 1KB)); Write-Output ('FreePhysicalMemory: {0:N2} MB' -f ($os.FreePhysicalMemory / 1KB)); Write-Output ('TotalVirtualMemorySize: {0:N2} MB' -f ($os.TotalVirtualMemorySize / 1KB)); Write-Output ('FreeVirtualMemory: {0:N2} MB' -f ($os.FreeVirtualMemory / 1KB))"' on 172.16.8.86:5985 with user 'Administrator'
+2025/05/02 19:15:03 logger.go:71: [DEBUG] Command execution succeeded on 172.16.8.98:5985
+2025/05/02 19:15:03 logger.go:71: [DEBUG] Successfully retrieved metrics for group CPU (ID: 1) on 172.16.8.98
+2025/05/02 19:15:04 logger.go:71: [DEBUG] Command execution succeeded on 172.16.8.86:5985
+2025/05/02 19:15:04 logger.go:71: [DEBUG] Successfully retrieved metrics for group MEMORY (ID: 2) on 172.16.8.86
+2025/05/02 19:15:04 logger.go:57: [INFO] Polling completed for 2 metric groups
+2025/05/02 19:15:04 logger.go:57: [INFO] WinRM Plugin completed successfully
+2025/05/02 19:15:04 logger.go:57: [INFO] Closing logger

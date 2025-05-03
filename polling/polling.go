@@ -2,6 +2,7 @@ package polling
 
 import (
 	"context"
+	"nms-plugin/commands"
 	"sync"
 	"time"
 
@@ -64,7 +65,8 @@ func Execute(request models.PollingRequest) models.PollingResponse {
 			)
 
 			// Get data for the metric group
-			data, err := client.GetMetricGroupData(ctx, mg)
+			command := commands.GetCommand(mg.Name)
+			data, err := client.ExecuteCommand(ctx, command)
 
 			// Create result
 			result := Result{

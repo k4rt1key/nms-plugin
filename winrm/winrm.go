@@ -7,12 +7,11 @@ import (
 
 	"github.com/masterzen/winrm"
 	"nms-plugin/logger"
-	"nms-plugin/models"
 )
 
 const (
 	// DefaultTimeout is the default timeout for WinRM operations
-	DefaultTimeout = 30 * time.Second
+	DefaultTimeout = 10 * time.Second
 )
 
 // Client represents a WinRM client
@@ -38,89 +37,35 @@ func (c *Client) ExecuteCommand(ctx context.Context, command string) (string, er
 	logger.Debug("Executing command '%s' on %s:%d with user '%s'", command, c.IP, c.Port, c.Username)
 
 	// Set up WinRM client configuration
-	config := &winrm.Endpoint{
-		Host:     c.IP,
-		Port:     c.Port,
-		HTTPS:    false,
-		Insecure: true,
-		Timeout:  DefaultTimeout,
-	}
-
-	// Create WinRM client
-	client, err := winrm.NewClient(config, c.Username, c.Password)
+	endpoint := winrm.NewEndpoint(c.IP, c.Port, false, false, nil, nil, nil, DefaultTimeout)
+	client, err := winrm.NewClient(endpoint, c.Username, c.Password)
 	if err != nil {
 		logger.Error("Failed to create WinRM client for %s:%d: %v", c.IP, c.Port, err)
 		return "", fmt.Errorf("failed to create WinRM client: %w", err)
 	}
 
-	// Create a channel to signal command completion
-	done := make(chan struct{})
-	var output string
-	var cmdErr error
-
-	// Execute command in a goroutine
-	go func() {
-		defer close(done)
-
-		// Run the command and capture stdout and stderr
-		var stdout, stderr string
-		stdout, stderr, _, cmdErr = client.RunWithString(command, "")
-
-		if cmdErr != nil {
-			output = stderr
-			logger.Error("Command execution failed on %s:%d: %v", c.IP, c.Port, cmdErr)
-			return
-		}
-
-		output = stdout
-		logger.Debug("Command execution succeeded on %s:%d", c.IP, c.Port)
-	}()
-
-	// Wait for command completion or context cancellation
-	select {
-	case <-done:
-		return output, cmdErr
-	case <-ctx.Done():
-		logger.Error("Command execution timed out on %s:%d", c.IP, c.Port)
-		return "", ctx.Err()
+	// Execute the command with context
+	stdout, stderr, exitCode, err := client.RunCmdWithContext(ctx, command)
+	if err != nil {
+		logger.Error("Command execution failed on %s:%d: %v", c.IP, c.Port, err)
+		return stderr, err
 	}
+
+	if exitCode != 0 {
+		logger.Error("Command exited with code %d on %s:%d", exitCode, c.IP, c.Port)
+		return stderr, fmt.Errorf("command exited with code %d", exitCode)
+	}
+
+	logger.Debug("Command execution succeeded on %s:%d", c.IP, c.Port)
+	return stdout, nil
 }
 
 // TestConnection tests if the WinRM connection is successful
 func (c *Client) TestConnection(ctx context.Context) (bool, string, error) {
-	output, err := c.ExecuteCommand(ctx, "systeminfo")
+	output, err := c.ExecuteCommand(ctx, "hostname")
+
 	if err != nil {
 		return false, "", err
 	}
 	return true, output, nil
-}
-
-// GetCPUInfo gets CPU information from the remote host
-func (c *Client) GetCPUInfo(ctx context.Context) (string, error) {
-	// PowerShell command to get CPU information
-	command := "powershell \"Get-Process | Sort-Object CPU -Descending | Select-Object -First 10 Name, Id, CPU, WorkingSet | Format-Table -AutoSize\""
-	return c.ExecuteCommand(ctx, command)
-}
-
-// GetMemoryInfo gets memory information from the remote host
-func (c *Client) GetMemoryInfo(ctx context.Context) (string, error) {
-	// PowerShell command to get memory information
-	command := "powershell \"$os = Get-WmiObject Win32_OperatingSystem; Write-Output ('TotalVisibleMemorySize: {0:N2} MB' -f ($os.TotalVisibleMemorySize / 1KB)); Write-Output ('FreePhysicalMemory: {0:N2} MB' -f ($os.FreePhysicalMemory / 1KB)); Write-Output ('TotalVirtualMemorySize: {0:N2} MB' -f ($os.TotalVirtualMemorySize / 1KB)); Write-Output ('FreeVirtualMemory: {0:N2} MB' -f ($os.FreeVirtualMemory / 1KB))\""
-	return c.ExecuteCommand(ctx, command)
-}
-
-// GetMetricGroupData gets data for a specific metric group
-func (c *Client) GetMetricGroupData(ctx context.Context, metricGroup models.MetricGroup) (string, error) {
-	var command string
-
-	switch metricGroup.Name {
-	case "CPU":
-		return c.GetCPUInfo(ctx)
-	case "MEMORY":
-		return c.GetMemoryInfo(ctx)
-	default:
-		command = "systeminfo"
-	}
-
-	return c.ExecuteCommand(ctx, command)
 }

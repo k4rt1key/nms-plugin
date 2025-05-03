@@ -36,7 +36,7 @@ func Initialize() {
 			log.Fatalf("Failed to create log file: %v", err)
 		}
 
-		// Set up multi-writer to write to both file and stdout
+		// Log only to file (no stdout)
 		logger = log.New(logFile, "", log.LstdFlags|log.Lshortfile)
 
 		Info("Logger initialized")
@@ -55,26 +55,27 @@ func Close() {
 func Info(format string, args ...interface{}) {
 	msg := fmt.Sprintf(format, args...)
 	logger.Printf("[INFO] %s", msg)
-	fmt.Printf("[INFO] %s\n", msg)
+	// fmt.Printf("[INFO] %s\n", msg) // Mute stdout
 }
 
 // Error logs an error message
 func Error(format string, args ...interface{}) {
 	msg := fmt.Sprintf(format, args...)
 	logger.Printf("[ERROR] %s", msg)
-	fmt.Printf("[ERROR] %s\n", msg)
+	// fmt.Printf("[ERROR] %s\n", msg) // Mute stdout
 }
 
 // Debug logs a debug message
 func Debug(format string, args ...interface{}) {
 	msg := fmt.Sprintf(format, args...)
 	logger.Printf("[DEBUG] %s", msg)
+	// fmt.Printf("[DEBUG] %s\n", msg) // Mute stdout
 }
 
 // Fatal logs a fatal message and exits
 func Fatal(format string, args ...interface{}) {
 	msg := fmt.Sprintf(format, args...)
 	logger.Printf("[FATAL] %s", msg)
-	fmt.Printf("[FATAL] %s\n", msg)
+	// fmt.Printf("[FATAL] %s\n", msg) // Mute stdout
 	os.Exit(1)
 }

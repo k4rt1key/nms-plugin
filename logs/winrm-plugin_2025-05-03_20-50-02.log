@@ -1,0 +1,11 @@
+2025/05/03 20:50:02 logger.go:57: [INFO] Logger initialized
+2025/05/03 20:50:02 logger.go:57: [INFO] WinRM Plugin started
+2025/05/03 20:50:02 logger.go:71: [DEBUG] Received input: {"type":"polling","metric_groups":[{"provision_profile_id":1,"name":"NETWORK","ip":"192.168.29.253","port":5985,"credentials":{"id":14,"name":"orignal2","username":"Administrator","password":"1010"}}]}
+2025/05/03 20:50:02 logger.go:57: [INFO] Processing polling request for 1 metric groups
+2025/05/03 20:50:02 logger.go:57: [INFO] Starting polling process for 1 metric groups
+2025/05/03 20:50:02 logger.go:71: [DEBUG] Executing command 'Get-NetIPAddress | Select-Object InterfaceAlias,IPAddress' on 192.168.29.253:5985 with user 'Administrator'
+2025/05/03 20:50:02 logger.go:71: [DEBUG] Command execution succeeded on 192.168.29.253:5985
+2025/05/03 20:50:02 logger.go:71: [DEBUG] Successfully retrieved metrics for group NETWORK (ID: 1) on 192.168.29.253
+2025/05/03 20:50:02 logger.go:57: [INFO] Polling completed for 1 metric groups
+2025/05/03 20:50:02 logger.go:57: [INFO] WinRM Plugin completed successfully
+2025/05/03 20:50:02 logger.go:57: [INFO] Closing logger

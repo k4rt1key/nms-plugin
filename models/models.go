@@ -13,6 +13,7 @@ const (
 // Credential represents authentication information
 type Credential struct {
 	ID       int    `json:"id"`
+	Name     string `json:"name"`
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
@@ -28,11 +29,11 @@ type DiscoveryRequest struct {
 
 // DiscoveryResult represents the result for a single IP and credential pair
 type DiscoveryResult struct {
-	Success    bool        `json:"success"`
-	IP         string      `json:"ip"`
-	Credential *Credential `json:"credential"`
-	Port       int         `json:"port"`
-	Message    string      `json:"message"`
+	Success    bool       `json:"success"`
+	IP         string     `json:"ip"`
+	Credential Credential `json:"credential"`
+	Port       int        `json:"port"`
+	Message    string     `json:"message"`
 }
 
 // DiscoveryResponse represents the output for discovery operation
