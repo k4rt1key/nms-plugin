@@ -13,6 +13,7 @@ import (
 )
 
 func main() {
+
 	// Initialize the logger
 	logger.Initialize()
 	defer logger.Close()
@@ -23,6 +24,10 @@ func main() {
 	if len(os.Args) < 2 {
 		logger.Fatal("No input provided. Usage: %s '{\"type\": \"discovery\", ...}'", os.Args[0])
 	}
+
+	//s := os.Args[1]
+	//test.Test(s)
+	//os.Exit(0)
 
 	// Get the JSON input from command-line arguments
 	input := strings.Join(os.Args[1:], " ")
