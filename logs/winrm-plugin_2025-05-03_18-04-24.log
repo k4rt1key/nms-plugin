@@ -1,4 +1,0 @@
-2025/05/03 18:04:24 logger.go:57: [INFO] Logger initialized
-2025/05/03 18:04:24 logger.go:57: [INFO] WinRM Plugin started
-2025/05/03 18:04:24 logger.go:71: [DEBUG] Received input: {"type":"polling","metric_groups":[{"provision_profile_id":1,"name":"HOSTNAME","ip":"192.168.29.36","port":5985,"credentials":{"id":14,"name":"orignal2","username":"HP-1344\hp","password":"0130"}}]}
-2025/05/03 18:04:24 logger.go:78: [FATAL] Failed to parse input JSON: invalid character 'h' in string escape code
