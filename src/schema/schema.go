@@ -4,10 +4,8 @@ package schema
 type RequestType string
 
 const (
-	// DiscoveryType for discovering devices
 	DiscoveryType RequestType = "discovery"
-	// PollingType for polling metrics from devices
-	PollingType RequestType = "polling"
+	PollingType   RequestType = "polling"
 )
 
 // Credential represents authentication information
@@ -51,7 +49,7 @@ type MetricGroup struct {
 	Port       int        `json:"port"`
 	Credential Credential `json:"credential"`
 }
-
+	
 // PollingRequest represents the input for polling operation
 type PollingRequest struct {
 	Type         RequestType   `json:"type"`
