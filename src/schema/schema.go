@@ -38,7 +38,7 @@ type DiscoveryResult struct {
 type DiscoveryResponse struct {
 	Type   RequestType       `json:"type"`
 	ID     int               `json:"id"`
-	Result []DiscoveryResult `json:"result"`
+	Result []DiscoveryResult `json:"results"`
 }
 
 // MetricGroup represents a group of metrics to be polled
@@ -49,7 +49,7 @@ type MetricGroup struct {
 	Port       int        `json:"port"`
 	Credential Credential `json:"credential"`
 }
-	
+
 // PollingRequest represents the input for polling operation
 type PollingRequest struct {
 	Type         RequestType   `json:"type"`
