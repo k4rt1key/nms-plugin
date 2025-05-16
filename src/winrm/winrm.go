@@ -34,11 +34,14 @@ func NewClient(ip string, port int, username, password string) *Client {
 
 // ExecuteCommand executes a command on the remote host
 func (c *Client) ExecuteCommand(ctx context.Context, command string) (string, error) {
+
 	logger.Debug("Executing command '%s' on %s:%d with user '%s'", command, c.IP, c.Port, c.Username)
 
 	// Set up WinRM client configuration
 	endpoint := winrm.NewEndpoint(c.IP, c.Port, false, false, nil, nil, nil, DefaultTimeout)
+
 	client, err := winrm.NewClient(endpoint, c.Username, c.Password)
+
 	if err != nil {
 		logger.Error("Failed to create WinRM client for %s:%d: %v", c.IP, c.Port, err)
 		return "", fmt.Errorf("failed to create WinRM client: %w", err)
@@ -46,6 +49,7 @@ func (c *Client) ExecuteCommand(ctx context.Context, command string) (string, er
 
 	// Execute the command with context
 	stdout, stderr, exitCode, err := client.RunCmdWithContext(ctx, command)
+
 	if err != nil {
 		logger.Error("Command execution failed on %s:%d: %v", c.IP, c.Port, err)
 		return stderr, err
@@ -57,6 +61,7 @@ func (c *Client) ExecuteCommand(ctx context.Context, command string) (string, er
 	}
 
 	logger.Debug("Command execution succeeded on %s:%d", c.IP, c.Port)
+
 	return stdout, nil
 }
 
@@ -67,5 +72,6 @@ func (c *Client) TestConnection(ctx context.Context) (bool, string, error) {
 	if err != nil {
 		return false, "", err
 	}
+
 	return true, output, nil
 }

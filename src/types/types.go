@@ -1,4 +1,4 @@
-package schema
+package types
 
 // RequestType defines the type of operation being requested
 type RequestType string
