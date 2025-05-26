@@ -1,136 +1,148 @@
+// discovery/discovery.go
 package discovery
 
 import (
 	"context"
-	"nms-plugin/src/logger"
-	"nms-plugin/src/types"
-	"nms-plugin/src/winrm"
 	"sync"
 	"time"
+
+	"nms-plugin/src/winrm"
 )
 
-const (
-	// DiscoveryTimeout is the timeout for discovery operations
-	DiscoveryTimeout = 30 * time.Second
-)
+const timeout = 30 * time.Second
 
-// Result represents the result of a discovery operation
-type Result struct {
-	IP         string
-	Credential types.Credential
-	Success    bool
-	Message    string
-}
+func Execute(request map[string]interface{}) map[string]interface{} {
 
-// Execute performs discovery on the specified IPs using the provided credentials
-func Execute(request types.DiscoveryRequest) types.DiscoveryResponse {
-	logger.Info("Starting discovery process for %d IPs with %d credentials", len(request.IPs), len(request.Credentials))
+	ips := request["ips"].([]interface{})
 
-	// Create the response object
-	response := types.DiscoveryResponse{
-		Type:   types.DiscoveryType,
-		ID:     request.ID,
-		Result: make([]types.DiscoveryResult, 0),
+	credentials := request["credentials"].([]interface{})
+
+	port := int(request["port"].(float64))
+
+	protocol := getProtocol(request)
+
+	response := map[string]interface{}{
+		"type":    "discovery",
+		"id":      request["id"],
+		"results": []map[string]interface{}{},
 	}
 
-	// Create a channel to receive results from workers
-	resultsChan := make(chan Result)
+	switch protocol {
 
-	// Create a wait group to track workers
-	var wg sync.WaitGroup
+	case "winrm":
 
-	// Track the number of workers we'll spawn
-	totalWorkers := len(request.IPs) * len(request.Credentials)
-	wg.Add(totalWorkers)
+		results := discoverWinRM(ips, credentials, port)
 
-	// Create a map to track successful credentials for each IP
-	successfulResults := make(map[string]types.DiscoveryResult)
-	var resultsMutex sync.Mutex
+		response["results"] = results
 
-	// Create a context with timeout for all operations
-	ctx, cancel := context.WithTimeout(context.Background(), DiscoveryTimeout)
-	defer cancel()
+	default:
 
-	// Start workers to check each IP with each credential
-	for _, ip := range request.IPs {
-		for _, credential := range request.Credentials {
-			go func(ip string, credential types.Credential) {
-				defer wg.Done()
+		results := discoverWinRM(ips, credentials, port)
 
-				// Create a WinRM client
-				client := winrm.NewClient(ip, request.Port, credential.Username, credential.Password)
-
-				// Test the connection
-				success, output, err := client.TestConnection(ctx)
-
-				// Send the result
-				result := Result{
-					IP:         ip,
-					Credential: credential,
-					Success:    success,
-				}
-
-				if err != nil {
-					result.Message = err.Error()
-				} else {
-					result.Message = output
-				}
-
-				resultsChan <- result
-
-			}(ip, credential)
-		}
+		response["results"] = results
 	}
-
-	// Start a goroutine to close the results channel once all workers are done
-	go func() {
-		wg.Wait()
-		close(resultsChan)
-	}()
-
-	// Process results as they come in
-	for result := range resultsChan {
-		logger.Debug("Received discovery result for %s with credential ID %d: success=%v",
-			result.IP, result.Credential.ID, result.Success)
-
-		if result.Success {
-			// We found a working credential for this IP
-			resultsMutex.Lock()
-			successfulResults[result.IP] = types.DiscoveryResult{
-				Success:    true,
-				IP:         result.IP,
-				Credential: result.Credential,
-				Port:       request.Port,
-				Message:    result.Message,
-			}
-			resultsMutex.Unlock()
-		}
-	}
-
-	// Process the final results
-	ipResults := make(map[string]bool)
-
-	// First, add all successful results
-	for ip, result := range successfulResults {
-		response.Result = append(response.Result, result)
-		ipResults[ip] = true
-	}
-
-	// Then, add failed results for IPs that have no successful credentials
-	for _, ip := range request.IPs {
-		if !ipResults[ip] {
-			response.Result = append(response.Result, types.DiscoveryResult{
-				Success:    false,
-				IP:         ip,
-				Credential: types.Credential{},
-				Port:       request.Port,
-				Message:    "Connection failed or invalid credentials for this IP",
-			})
-		}
-	}
-
-	logger.Info("Discovery completed with %d successful connections out of %d IPs",
-		len(successfulResults), len(request.IPs))
 
 	return response
+}
+
+func getProtocol(request map[string]interface{}) string {
+
+	if protocol, ok := request["protocol"]; ok {
+
+		return protocol.(string)
+
+	}
+
+	return "winrm"
+}
+
+func discoverWinRM(ips, credentials []interface{}, port int) []map[string]interface{} {
+
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+
+	defer cancel()
+
+	resultChan := make(chan map[string]interface{})
+
+	var wg sync.WaitGroup
+
+	successMap := make(map[string]map[string]interface{})
+
+	var mu sync.Mutex
+
+	totalJobs := len(ips) * len(credentials)
+
+	wg.Add(totalJobs)
+
+	for _, ipInterface := range ips {
+
+		for _, credInterface := range credentials {
+
+			go func(ip string, cred map[string]interface{}) {
+
+				defer wg.Done()
+
+				client := winrm.NewClient(ip, port, cred["username"].(string), cred["password"].(string))
+
+				success, message := winrm.TestConnection(ctx, client)
+
+				result := map[string]interface{}{
+					"ip":         ip,
+					"credential": cred,
+					"success":    success,
+					"message":    message,
+					"port":       port,
+				}
+
+				resultChan <- result
+
+			}(ipInterface.(string), credInterface.(map[string]interface{}))
+		}
+	}
+
+	go func() {
+
+		wg.Wait()
+
+		close(resultChan)
+
+	}()
+
+	for result := range resultChan {
+
+		if result["success"].(bool) {
+
+			mu.Lock()
+
+			successMap[result["ip"].(string)] = result
+
+			mu.Unlock()
+
+		}
+	}
+
+	var results []map[string]interface{}
+
+	for _, ipInterface := range ips {
+
+		ip := ipInterface.(string)
+
+		if result, exists := successMap[ip]; exists {
+
+			results = append(results, result)
+
+		} else {
+
+			results = append(results, map[string]interface{}{
+				"success":    false,
+				"ip":         ip,
+				"credential": map[string]interface{}{},
+				"port":       port,
+				"message":    "Connection failed",
+			})
+
+		}
+	}
+
+	return results
 }
