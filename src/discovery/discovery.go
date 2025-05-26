@@ -19,35 +19,22 @@ func Execute(request map[string]interface{}) map[string]interface{} {
 
 	port := int(request["port"].(float64))
 
-	protocol := getProtocol(request)
-
 	response := map[string]interface{}{
 		"type":    "discovery",
 		"id":      request["id"],
 		"results": []map[string]interface{}{},
 	}
 
-	switch protocol {
+	results := discover(ips, credentials, port)
 
-	case "winrm":
-
-		results := discoverWinRM(ips, credentials, port)
-
-		response["results"] = results
-
-	default:
-
-		results := discoverWinRM(ips, credentials, port)
-
-		response["results"] = results
-	}
+	response["results"] = results
 
 	return response
 }
 
-func getProtocol(request map[string]interface{}) string {
+func getProtocolFromCredential(credential map[string]interface{}) string {
 
-	if protocol, ok := request["protocol"]; ok {
+	if protocol, ok := credential["protocol"]; ok {
 
 		return protocol.(string)
 
@@ -56,7 +43,7 @@ func getProtocol(request map[string]interface{}) string {
 	return "winrm"
 }
 
-func discoverWinRM(ips, credentials []interface{}, port int) []map[string]interface{} {
+func discover(ips, credentials []interface{}, port int) []map[string]interface{} {
 
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 
@@ -82,9 +69,21 @@ func discoverWinRM(ips, credentials []interface{}, port int) []map[string]interf
 
 				defer wg.Done()
 
-				client := winrm.NewClient(ip, port, cred["username"].(string), cred["password"].(string))
+				protocol := getProtocolFromCredential(cred)
 
-				success, message := winrm.TestConnection(ctx, client)
+				var success bool
+
+				var message string
+
+				switch protocol {
+
+				case "winrm":
+					success, message = winrm.TestConnection(ctx, ip, port, cred)
+
+				default:
+					// Default to WinRM if protocol not recognized
+					success, message = winrm.TestConnection(ctx, ip, port, cred)
+				}
 
 				result := map[string]interface{}{
 					"ip":         ip,
@@ -92,6 +91,7 @@ func discoverWinRM(ips, credentials []interface{}, port int) []map[string]interf
 					"success":    success,
 					"message":    message,
 					"port":       port,
+					"protocol":   protocol,
 				}
 
 				resultChan <- result
@@ -114,7 +114,14 @@ func discoverWinRM(ips, credentials []interface{}, port int) []map[string]interf
 
 			mu.Lock()
 
-			successMap[result["ip"].(string)] = result
+			// Store the successful result for this IP, but prefer the first successful one
+			ip := result["ip"].(string)
+
+			if _, exists := successMap[ip]; !exists {
+
+				successMap[ip] = result
+
+			}
 
 			mu.Unlock()
 
@@ -138,7 +145,8 @@ func discoverWinRM(ips, credentials []interface{}, port int) []map[string]interf
 				"ip":         ip,
 				"credential": map[string]interface{}{},
 				"port":       port,
-				"message":    "Connection failed",
+				"protocol":   "",
+				"message":    "Connection failed with all credentials",
 			})
 
 		}
