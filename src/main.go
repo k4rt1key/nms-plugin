@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -22,18 +21,16 @@ func main() {
 		log.Fatal("Failed to parse JSON:", err)
 
 	}
-
-	var response interface{}
-
+	
 	switch request["type"] {
 
 	case "discovery":
 
-		response = discovery.Execute(request)
+		discovery.Execute(request)
 
 	case "polling":
 
-		response = polling.Execute(request)
+		polling.Execute(request)
 
 	default:
 
@@ -41,7 +38,4 @@ func main() {
 
 	}
 
-	output, _ := json.MarshalIndent(response, "", "  ")
-
-	fmt.Println(string(output))
 }

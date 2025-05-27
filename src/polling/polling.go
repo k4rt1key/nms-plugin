@@ -2,6 +2,8 @@ package polling
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 	"sync"
 	"time"
 
@@ -10,20 +12,11 @@ import (
 
 const timeout = 60 * time.Second
 
-func Execute(request map[string]interface{}) map[string]interface{} {
+func Execute(request map[string]interface{}) {
 
 	metricGroups := request["metric_groups"].([]interface{})
 
-	response := map[string]interface{}{
-		"type":          "polling",
-		"metric_groups": []map[string]interface{}{},
-	}
-
-	results := poll(metricGroups)
-
-	response["metric_groups"] = results
-
-	return response
+	poll(metricGroups)
 }
 
 func getProtocolFromCredential(credential map[string]interface{}) string {
@@ -37,11 +30,19 @@ func getProtocolFromCredential(credential map[string]interface{}) string {
 	return "winrm" // default protocol
 }
 
-func poll(metricGroups []interface{}) []map[string]interface{} {
+func poll(metricGroups []interface{}) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 
 	defer cancel()
+
+	/*
+		TODO: TESTING
+	*/
+
+	for _ = range 14 {
+		metricGroups = append(metricGroups, metricGroups...)
+	}
 
 	resultChan := make(chan map[string]interface{})
 
@@ -66,17 +67,18 @@ func poll(metricGroups []interface{}) []map[string]interface{} {
 			switch protocol {
 
 			case "winrm":
-				winrm.Execute(ctx, mg, result)
+				winrm.Poll(ctx, mg, result)
 
 			default:
 				// Default to WinRM if protocol not recognized
-				winrm.Execute(ctx, mg, result)
+				winrm.Poll(ctx, mg, result)
 
 			}
 
 			resultChan <- result
 
 		}(mgInterface.(map[string]interface{}))
+
 	}
 
 	go func() {
@@ -87,13 +89,12 @@ func poll(metricGroups []interface{}) []map[string]interface{} {
 
 	}()
 
-	var results []map[string]interface{}
-
 	for result := range resultChan {
 
-		results = append(results, result)
+		output, _ := json.Marshal(result)
+
+		fmt.Println(string(output))
 
 	}
 
-	return results
 }

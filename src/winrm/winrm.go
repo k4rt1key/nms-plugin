@@ -48,7 +48,7 @@ func TestConnection(ctx context.Context, ip string, port int, cred map[string]in
 	return true, stdout
 }
 
-func Execute(ctx context.Context, mg map[string]interface{}, result map[string]interface{}) {
+func Poll(ctx context.Context, mg map[string]interface{}, result map[string]interface{}) {
 
 	cred := mg["credential"].(map[string]interface{})
 
