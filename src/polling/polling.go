@@ -12,17 +12,6 @@ import (
 
 const timeout = 60 * time.Second
 
-func getProtocolFromCredential(credential map[string]interface{}) string {
-
-	if protocol, ok := credential["protocol"]; ok {
-
-		return protocol.(string)
-
-	}
-
-	return "winrm" // default protocol
-}
-
 func Poll(request map[string]interface{}) {
 
 	metricGroups := request["metric_groups"].([]interface{})
@@ -51,7 +40,11 @@ func Poll(request map[string]interface{}) {
 
 			defer wg.Done()
 
-			protocol := getProtocolFromCredential(mg["credential"].(map[string]interface{}))
+			protocol, ok := (mg["credential"].(map[string]interface{}))["protocol"]
+
+			if !ok {
+				protocol = "winrm"
+			}
 
 			result := map[string]interface{}{
 				"monitor_id": mg["monitor_id"],

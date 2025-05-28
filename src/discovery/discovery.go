@@ -56,7 +56,11 @@ func Discover(request map[string]interface{}) {
 
 				defer wg.Done()
 
-				protocol := getProtocolFromCredential(cred)
+				protocol, ok := cred["protocol"]
+
+				if !ok {
+					protocol = "winrm"
+				}
 
 				var success bool
 
