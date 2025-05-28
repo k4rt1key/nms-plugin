@@ -75,6 +75,8 @@ func Poll(ctx context.Context, mg map[string]interface{}, result map[string]inte
 
 		result["data"] = ""
 
+		result["time"] = time.Now().UTC()
+
 	} else if exitCode != 0 {
 
 		result["success"] = false
@@ -83,6 +85,8 @@ func Poll(ctx context.Context, mg map[string]interface{}, result map[string]inte
 
 		result["data"] = ""
 
+		result["time"] = time.Now().UTC()
+
 	} else {
 
 		result["success"] = true
@@ -90,6 +94,8 @@ func Poll(ctx context.Context, mg map[string]interface{}, result map[string]inte
 		result["message"] = "success"
 
 		result["data"] = stdout
+
+		result["time"] = time.Now().UTC()
 	}
 }
 

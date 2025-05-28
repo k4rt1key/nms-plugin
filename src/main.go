@@ -4,10 +4,9 @@ import (
 	"encoding/json"
 	"log"
 	"nms-plugin/src/discovery"
+	"nms-plugin/src/polling"
 	"os"
 	"strings"
-
-	"nms-plugin/src/polling"
 )
 
 func main() {

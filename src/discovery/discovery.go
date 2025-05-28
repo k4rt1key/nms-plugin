@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"nms-plugin/src/utils"
 	"sync"
 	"time"
 
@@ -12,17 +13,6 @@ import (
 )
 
 const timeout = 30 * time.Second
-
-func getProtocolFromCredential(credential map[string]interface{}) string {
-
-	if protocol, ok := credential["protocol"]; ok {
-
-		return protocol.(string)
-
-	}
-
-	return "winrm"
-}
 
 func Discover(request map[string]interface{}) {
 
@@ -83,6 +73,7 @@ func Discover(request map[string]interface{}) {
 					"message":    message,
 					"port":       port,
 					"protocol":   protocol,
+					"time":       utils.GetIndianTime(),
 				}
 
 				resultChan <- result
@@ -136,6 +127,7 @@ func Discover(request map[string]interface{}) {
 				"port":       port,
 				"protocol":   "",
 				"message":    "No valid credential found",
+				"time":       utils.GetIndianTime(),
 			})
 
 			fmt.Println(string(output))

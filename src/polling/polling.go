@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"nms-plugin/src/utils"
 	"sync"
 	"time"
 
@@ -19,14 +20,6 @@ func Poll(request map[string]interface{}) {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 
 	defer cancel()
-
-	/*
-		TODO: TESTING
-	*/
-
-	//for _ = range 2 {
-	//	metricGroups = append(metricGroups, metricGroups...)
-	//}
 
 	resultChan := make(chan map[string]interface{})
 
@@ -49,7 +42,7 @@ func Poll(request map[string]interface{}) {
 			result := map[string]interface{}{
 				"monitor_id": mg["monitor_id"],
 				"name":       mg["name"],
-				"time":       time.Now().Format(time.RFC3339),
+				"time":       utils.GetIndianTime(),
 			}
 
 			switch protocol {
