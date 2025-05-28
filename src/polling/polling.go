@@ -35,9 +35,9 @@ func Poll(request map[string]interface{}) {
 		TODO: TESTING
 	*/
 
-	for _ = range 2 {
-		metricGroups = append(metricGroups, metricGroups...)
-	}
+	//for _ = range 2 {
+	//	metricGroups = append(metricGroups, metricGroups...)
+	//}
 
 	resultChan := make(chan map[string]interface{})
 
