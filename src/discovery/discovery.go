@@ -107,7 +107,7 @@ func Discover(request map[string]interface{}) {
 				"success":    false,
 				"ip":         result["ip"],
 				"credential": map[string]interface{}{},
-				"message":    "Connection failed with all credentials",
+				"message":    request["message"],
 			})
 
 			fmt.Println(string(output))

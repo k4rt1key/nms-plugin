@@ -32,15 +32,11 @@ func TestConnection(ctx context.Context, ip string, port int, cred map[string]in
 
 		if stderr != "" {
 
-			fmt.Println(stderr)
-
 			return false, stderr
 
 		}
 
 		if err != nil {
-
-			fmt.Println(err)
 
 			return false, err.Error()
 
@@ -67,8 +63,6 @@ func Poll(ctx context.Context, mg map[string]interface{}, result map[string]inte
 		cred["credential"].(map[string]interface{})["password"].(string),
 	)
 
-	fmt.Println(mg["ip"].(string), int(mg["port"].(float64)), cred["credential"].(map[string]interface{})["username"].(string), cred["credential"].(map[string]interface{})["password"].(string))
-
 	command := getWinRMCommand(mg["name"].(string))
 
 	stdout, _, exitCode, err := client.RunCmdWithContext(ctx, command)
@@ -80,6 +74,7 @@ func Poll(ctx context.Context, mg map[string]interface{}, result map[string]inte
 		result["message"] = err.Error()
 
 		result["data"] = ""
+
 	} else if exitCode != 0 {
 
 		result["success"] = false
