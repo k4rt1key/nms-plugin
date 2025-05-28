@@ -3,6 +3,7 @@ package winrm
 import (
 	"context"
 	"fmt"
+	"nms-plugin/src/utils"
 	"time"
 
 	"github.com/masterzen/winrm"
@@ -74,7 +75,7 @@ func Poll(ctx context.Context, mg map[string]interface{}, result map[string]inte
 
 		result["data"] = ""
 
-		result["time"] = time.Now().UTC()
+		result["time"] = utils.GetIndianTime()
 
 	} else if exitCode != 0 {
 
@@ -84,7 +85,7 @@ func Poll(ctx context.Context, mg map[string]interface{}, result map[string]inte
 
 		result["data"] = ""
 
-		result["time"] = time.Now().UTC()
+		result["time"] = utils.GetIndianTime()
 
 	} else {
 
@@ -94,7 +95,7 @@ func Poll(ctx context.Context, mg map[string]interface{}, result map[string]inte
 
 		result["data"] = stdout
 
-		result["time"] = time.Now().UTC()
+		result["time"] = utils.GetIndianTime()
 	}
 }
 
