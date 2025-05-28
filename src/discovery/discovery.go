@@ -1,4 +1,3 @@
-// discovery/discovery.go
 package discovery
 
 import (

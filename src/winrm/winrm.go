@@ -1,4 +1,3 @@
-// Package winrm winrm/winrm.go
 package winrm
 
 import (
