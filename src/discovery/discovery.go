@@ -40,6 +40,10 @@ func Discover(request map[string]interface{}) {
 
 	var wg sync.WaitGroup
 
+	successMap := make(map[string]map[string]interface{})
+
+	var mu sync.Mutex
+
 	totalJobs := len(ips) * len(credentials)
 
 	wg.Add(totalJobs)
@@ -69,12 +73,12 @@ func Discover(request map[string]interface{}) {
 				}
 
 				result := map[string]interface{}{
-					"type":       "discovery",
-					"id":         request["id"],
 					"ip":         ip,
 					"credential": cred,
 					"success":    success,
 					"message":    message,
+					"port":       port,
+					"protocol":   protocol,
 				}
 
 				resultChan <- result
@@ -95,23 +99,44 @@ func Discover(request map[string]interface{}) {
 
 		if result["success"].(bool) {
 
-			output, _ := json.Marshal(result)
+			mu.Lock()
 
-			fmt.Println(string(output))
+			// Store the successful result for this IP, but prefer the first successful one
+			ip := result["ip"].(string)
 
-		} else {
+			if _, exists := successMap[ip]; !exists {
+
+				successMap[ip] = result
+
+				output, _ := json.Marshal(result)
+
+				fmt.Println(string(output))
+
+			}
+
+			mu.Unlock()
+
+		}
+	}
+
+	for _, ipInterface := range ips {
+
+		ip := ipInterface.(string)
+
+		if _, exists := successMap[ip]; !exists {
 
 			output, _ := json.Marshal(map[string]interface{}{
-				"id":         request["id"],
-				"type":       "discovery",
 				"success":    false,
-				"ip":         result["ip"],
+				"ip":         ip,
 				"credential": map[string]interface{}{},
-				"message":    request["message"],
+				"port":       port,
+				"protocol":   "",
+				"message":    "No valid credential found",
 			})
 
 			fmt.Println(string(output))
 
 		}
 	}
+
 }
