@@ -3,10 +3,10 @@ package main
 import (
 	"encoding/json"
 	"log"
+	"nms-plugin/src/discovery"
 	"os"
 	"strings"
 
-	"nms-plugin/src/discovery"
 	"nms-plugin/src/polling"
 )
 
@@ -21,16 +21,16 @@ func main() {
 		log.Fatal("Failed to parse JSON:", err)
 
 	}
-	
+
 	switch request["type"] {
 
 	case "discovery":
 
-		discovery.Execute(request)
+		discovery.Discover(request)
 
 	case "polling":
 
-		polling.Execute(request)
+		polling.Poll(request)
 
 	default:
 

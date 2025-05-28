@@ -3,6 +3,8 @@ package discovery
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 	"sync"
 	"time"
 
@@ -10,27 +12,6 @@ import (
 )
 
 const timeout = 30 * time.Second
-
-func Execute(request map[string]interface{}) map[string]interface{} {
-
-	ips := request["ips"].([]interface{})
-
-	credentials := request["credentials"].([]interface{})
-
-	port := int(request["port"].(float64))
-
-	response := map[string]interface{}{
-		"type":    "discovery",
-		"id":      request["id"],
-		"results": []map[string]interface{}{},
-	}
-
-	results := discover(ips, credentials, port)
-
-	response["results"] = results
-
-	return response
-}
 
 func getProtocolFromCredential(credential map[string]interface{}) string {
 
@@ -43,7 +24,13 @@ func getProtocolFromCredential(credential map[string]interface{}) string {
 	return "winrm"
 }
 
-func discover(ips, credentials []interface{}, port int) []map[string]interface{} {
+func Discover(request map[string]interface{}) {
+
+	ips := request["ips"].([]interface{})
+
+	credentials := request["credentials"].([]interface{})
+
+	port := int(request["port"].(float64))
 
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 
@@ -52,10 +39,6 @@ func discover(ips, credentials []interface{}, port int) []map[string]interface{}
 	resultChan := make(chan map[string]interface{})
 
 	var wg sync.WaitGroup
-
-	successMap := make(map[string]map[string]interface{})
-
-	var mu sync.Mutex
 
 	totalJobs := len(ips) * len(credentials)
 
@@ -86,12 +69,12 @@ func discover(ips, credentials []interface{}, port int) []map[string]interface{}
 				}
 
 				result := map[string]interface{}{
+					"type":       "discovery",
+					"id":         request["id"],
 					"ip":         ip,
 					"credential": cred,
 					"success":    success,
 					"message":    message,
-					"port":       port,
-					"protocol":   protocol,
 				}
 
 				resultChan <- result
@@ -112,45 +95,23 @@ func discover(ips, credentials []interface{}, port int) []map[string]interface{}
 
 		if result["success"].(bool) {
 
-			mu.Lock()
+			output, _ := json.Marshal(result)
 
-			// Store the successful result for this IP, but prefer the first successful one
-			ip := result["ip"].(string)
-
-			if _, exists := successMap[ip]; !exists {
-
-				successMap[ip] = result
-
-			}
-
-			mu.Unlock()
-
-		}
-	}
-
-	var results []map[string]interface{}
-
-	for _, ipInterface := range ips {
-
-		ip := ipInterface.(string)
-
-		if result, exists := successMap[ip]; exists {
-
-			results = append(results, result)
+			fmt.Println(string(output))
 
 		} else {
 
-			results = append(results, map[string]interface{}{
+			output, _ := json.Marshal(map[string]interface{}{
+				"id":         request["id"],
+				"type":       "discovery",
 				"success":    false,
-				"ip":         ip,
+				"ip":         result["ip"],
 				"credential": map[string]interface{}{},
-				"port":       port,
-				"protocol":   "",
 				"message":    "Connection failed with all credentials",
 			})
 
+			fmt.Println(string(output))
+
 		}
 	}
-
-	return results
 }

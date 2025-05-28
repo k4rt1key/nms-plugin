@@ -32,11 +32,15 @@ func TestConnection(ctx context.Context, ip string, port int, cred map[string]in
 
 		if stderr != "" {
 
+			fmt.Println(stderr)
+
 			return false, stderr
 
 		}
 
 		if err != nil {
+
+			fmt.Println(err)
 
 			return false, err.Error()
 

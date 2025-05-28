@@ -12,13 +12,6 @@ import (
 
 const timeout = 60 * time.Second
 
-func Execute(request map[string]interface{}) {
-
-	metricGroups := request["metric_groups"].([]interface{})
-
-	poll(metricGroups)
-}
-
 func getProtocolFromCredential(credential map[string]interface{}) string {
 
 	if protocol, ok := credential["protocol"]; ok {
@@ -30,7 +23,9 @@ func getProtocolFromCredential(credential map[string]interface{}) string {
 	return "winrm" // default protocol
 }
 
-func poll(metricGroups []interface{}) {
+func Poll(request map[string]interface{}) {
+
+	metricGroups := request["metric_groups"].([]interface{})
 
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 
@@ -40,7 +35,7 @@ func poll(metricGroups []interface{}) {
 		TODO: TESTING
 	*/
 
-	for _ = range 14 {
+	for _ = range 2 {
 		metricGroups = append(metricGroups, metricGroups...)
 	}
 
